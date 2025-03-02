@@ -436,23 +436,21 @@ footer {
 
     .camera-section {
         width: 100%;
-        height: 100vh; /* 使用視窗高度 */
+        height: 100vh;
         margin: 0;
         padding: 0;
         border-radius: 0;
         box-shadow: none;
         background: transparent;
-        display: flex;
-        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
     }
 
     .camera-container {
         position: relative;
         width: 100%;
-        height: 100%; /* 使用容器全高 */
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        height: 100%;
         overflow: hidden;
         background: var(--card-background);
     }
@@ -460,7 +458,7 @@ footer {
     #video {
         width: 100%;
         height: 100%;
-        object-fit: contain; /* 使用 contain 保持比例 */
+        object-fit: contain;
         transform: scaleX(-1);
     }
 
@@ -470,9 +468,43 @@ footer {
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain; /* 使用 contain 保持比例 */
+        object-fit: contain;
         transform: scaleX(-1);
         z-index: 2;
+    }
+
+    /* 調整提示文字樣式 */
+    .acupoint-title,
+    .palm-guide,
+    .timer,
+    .massage-complete {
+        position: fixed; /* 改為固定定位 */
+        z-index: 1001;
+        pointer-events: none; /* 防止干擾點擊事件 */
+    }
+
+    .acupoint-title {
+        top: env(safe-area-inset-top, 40px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        max-width: 90%;
+        background: rgba(43, 45, 66, 0.9);
+        padding: 12px 24px;
+        border-radius: var(--border-radius);
+        backdrop-filter: blur(8px);
+    }
+
+    .palm-guide {
+        top: calc(env(safe-area-inset-top, 40px) + 60px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        max-width: 90%;
+        background: rgba(43, 45, 66, 0.9);
+        padding: 12px 24px;
+        border-radius: var(--border-radius);
+        backdrop-filter: blur(8px);
     }
 
     .control-section {
@@ -525,21 +557,23 @@ footer {
         color: white;
     }
 
-    /* 調整提示文字位置 */
-    .acupoint-title,
-    .palm-guide,
-    .timer,
-    .massage-complete {
-        position: fixed;
-        z-index: 1001;
+    .symptom-list {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 100%;
+        padding: 15px;
     }
 
-    .acupoint-title {
-        top: env(safe-area-inset-top, 40px);
+    .symptom-list .option-btn {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
     }
 
-    .palm-guide {
-        top: calc(env(safe-area-inset-top, 40px) + 60px);
+    #meridian-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
+        padding: 15px;
     }
 }
 
