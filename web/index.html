@@ -78,7 +78,7 @@
                     <div class="options-title">症狀選擇</div>
                     <button class="option-btn">疲勞</button>
                     <button class="option-btn">頭痛</button>
-                    <!-- <button class="option-btn">頭暈</button> -->
+                    <button class="option-btn">頭暈</button>
                     <button class="option-btn" data-acupoint="魚際穴" data-location="yujixue">哮喘</button>
                     <button class="option-btn">經痛</button>
                     <button class="option-btn">牙齒痛</button>
@@ -106,8 +106,10 @@
 
         // 設定 canvas 尺寸
         function setupCanvas() {
-            canvas.width = 1280;  // 設定固定尺寸
-            canvas.height = 720;
+            // 設定固定的寬高比（16:9）
+            const aspectRatio = 16/9;
+            canvas.width = 1280;
+            canvas.height = canvas.width / aspectRatio;
         }
 
         // 初始化 MediaPipe Hands
@@ -880,18 +882,32 @@
 
                 // 確保視訊元素正確顯示
                 const maintainAspectRatio = () => {
-                    // 設置視訊元素尺寸和比例
-                    video.style.width = '100%';
-                    video.style.height = '100%';
-                    video.style.objectFit = 'cover'; // 改用 cover 以填滿容器
-                    video.style.transform = 'scaleX(-1)';
+                    const container = document.querySelector('.camera-container');
+                    const containerWidth = container.offsetWidth;
+                    const containerHeight = container.offsetHeight;
+                    const videoAspectRatio = 16/9;
                     
-                    // 設置 canvas 尺寸和比例
-                    const canvas = document.getElementById('output-canvas');
-                    canvas.style.width = '100%';
-                    canvas.style.height = '100%';
+                    // 計算適合的尺寸
+                    let width, height;
+                    if (containerWidth / containerHeight > videoAspectRatio) {
+                        // 容器較寬，以高度為基準
+                        height = containerHeight;
+                        width = height * videoAspectRatio;
+                    } else {
+                        // 容器較高，以寬度為基準
+                        width = containerWidth;
+                        height = width / videoAspectRatio;
+                    }
+
+                    // 設置視訊元素尺寸
+                    video.style.width = `${width}px`;
+                    video.style.height = `${height}px`;
+                    video.style.objectFit = 'cover';
+                    
+                    // 設置 canvas 尺寸
+                    canvas.style.width = `${width}px`;
+                    canvas.style.height = `${height}px`;
                     canvas.style.objectFit = 'cover';
-                    canvas.style.transform = 'scaleX(-1)';
                 };
 
                 // 立即設置
